@@ -21,7 +21,9 @@ jobs:
         run: sudo apt-get install -y tree
 
       - name: Generate file structure
-        run: tree -aI '.git' > file_structure.txt
+        run: |
+            tree -aI '.git' 
+            tree -aI '.git' > file_structure.txt
 
       - name: Update README.md
         run: |
