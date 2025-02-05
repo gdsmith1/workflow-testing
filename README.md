@@ -7,9 +7,8 @@
 │   └── workflows
 │       └── test.yaml
 ├── .gitignore
-├── LICENSE
 ├── README.md
 └── file_structure.txt
 
-3 directories, 5 files
+3 directories, 4 files
 ```
