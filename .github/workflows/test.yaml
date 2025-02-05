@@ -28,7 +28,7 @@ jobs:
       - name: Update README.md
         run: |
             ls
-            sed -i '' '/## File Structure/,$d' README.md
+            sed -i.bak '/## File Structure/,$d' README.md && rm README.md.bak
             echo '## File Structure' >> README.md
             echo '```' >> README.md
             cat file_structure.txt >> README.md
