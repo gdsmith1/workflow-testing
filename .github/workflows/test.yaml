@@ -55,7 +55,7 @@ jobs:
 
       - name: Commit changes
         run: |
-            git add README.md file_structure.txt
+            git add README.md
             git commit -m 'Update README file structure [skip ci]'
             git push -f
 
