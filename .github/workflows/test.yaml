@@ -6,24 +6,43 @@ on:
       - main
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    packages: write
+    id-token: write
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Install tree
         run: sudo apt-get install -y tree
 
-      - name: Generate file structure
+      - name: Generate a Token
+        id: app-token
+        uses: actions/create-github-app-token@31c86eb3b33c9b601a1f60f98dcbfd1d70f379b4 # v1
+        with:
+          app-id: ${{ vars.SEMANTIC_RELEASE_GH_APP_ID }}
+          private-key: ${{ secrets.SEMANTIC_RELEASE_GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Use the Token
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-            tree -aI '.git' 
-            tree -aI '.git' > file_structure.txt
+             git config --global url."https://git:${GH_TOKEN}@github.com".insteadOf https://github.com
+             git config --global user.name '${{ github.actor }}'
+             git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
+
+      - name: Generate file structure
+        run:  tree -aI '.git' > file_structure.txt
 
       - name: Update README.md
         run: |
@@ -32,6 +51,7 @@ jobs:
             echo '```' >> README.md
             cat file_structure.txt >> README.md
             echo '```' >> README.md
+            rm file_structure.txt
 
       - name: Commit changes
         run: |
@@ -39,9 +59,5 @@ jobs:
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
             git add README.md file_structure.txt
             git commit -m 'Update README file structure [skip ci]'
+            git push -f
 
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-            git push
