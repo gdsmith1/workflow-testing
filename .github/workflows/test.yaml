@@ -42,16 +42,16 @@ jobs:
           persist-credentials: false
 
       - name: Generate file structure
-        run:  tree -aI '.git' > file_structure.txt
+        run:  tree -aI '.git file_structure.txt' > file_structure.txt
 
       - name: Update README.md
         run: |
-            sed -i.bak '/## File Structure/,$d' README.md && rm README.md.bak
+            sed -i.bak '/## File Structure/,$d' README.md
             echo '## File Structure' >> README.md
             echo '```' >> README.md
             cat file_structure.txt >> README.md
             echo '```' >> README.md
-            rm file_structure.txt
+            rm file_structure.txt README.md.bak
 
       - name: Commit changes
         run: |
