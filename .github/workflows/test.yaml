@@ -46,14 +46,12 @@ jobs:
 
       - name: Update README.md
         run: |
-            sed -n '/^## File Structure/!p' README.md > README.tmp
-            echo '## File Structure' >> README.tmp
-            echo '```' >> README.tmp
-            cat file_structure.txt >> README.tmp
-            echo '```' >> README.tmp
-            sed -n '/^## File Structure/q;p' README.md >> README.tmp
-            mv README.tmp README.md
-            rm file_structure.txt
+          sed '/^## File Structure/,$d' README.md
+          echo '## File Structure' >> README.md
+          echo '```' >> README.md
+          cat file_structure.txt >> README.md
+          echo '```' >> README.md
+          rm file_structure.txt
 
       - name: Commit changes
         run: |
