@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate a Token
         id: app-token
-        uses: actions/create-github-app-token@31c86eb3b33c9b601a1f60f98dcbfd1d70f379b4 # v1
+        uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
@@ -46,16 +46,15 @@ jobs:
 
       - name: Update README.md
         run: |
-          sed '/^## File Structure/,$d' README.md
-          echo '## File Structure' >> README.md
-          echo '```' >> README.md
-          cat file_structure.txt >> README.md
-          echo '```' >> README.md
-          rm file_structure.txt
+            sed -i.bak '/## File Structure/,$d' README.md
+            echo '## File Structure' >> README.md
+            echo '```' >> README.md
+            cat file_structure.txt >> README.md
+            echo '```' >> README.md
+            rm file_structure.txt README.md.bak
 
       - name: Commit changes
         run: |
             git add README.md
             git commit -m 'Update README file structure [skip ci]'
             git push -f
-
