@@ -2,11 +2,6 @@
  
 
 ## File Structure
-
-
-
-## Hello World
-## File Structure
 ```
 .
 ├── .github
