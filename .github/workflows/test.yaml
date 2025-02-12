@@ -57,4 +57,7 @@ jobs:
         run: |
             cat README.md
             git add README.md
-            git diff --exit-code || { git commit -m 'Update README file structure [skip ci]' && git push -f; }
+            if ! git diff --exit-code; then 
+              { git commit -m 'Update README file structure [skip ci]'
+              git push -f
+            fi
