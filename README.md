@@ -5,6 +5,8 @@ Will still need tg/tf infra for this, but I can drop most of the setup for argo/
 Will need a workflow regardless to go into each app and build a container, upload to ghcr
 EC2 will have to be provisioned to at least run docker compose
 
+Need to separate sentences during transcription process based on inferences to get somewhat coherent results
+
 
 ## File Structure
 ```
